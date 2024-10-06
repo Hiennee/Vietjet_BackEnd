@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Vietjet_BackEnd.DTO;
 using Vietjet_BackEnd.Services;
 
 namespace Vietjet_BackEnd.Controllers
@@ -66,6 +67,36 @@ namespace Vietjet_BackEnd.Controllers
                 return Ok(result);
             }
             return NotFound(result);
+        }
+        [HttpPost]
+        [Route("post")]
+        public async Task<IActionResult> PostFlight([FromBody] FlightDTO flight)
+        {
+            if (await _service.PostFlight(flight))
+            {
+                return Ok(flight);
+            }
+            return BadRequest();
+        }
+        [HttpPost]
+        [Route("confirm/{id}")]
+        public async Task<IActionResult> ConfirmFlight([FromBody] string id)
+        {
+            if (await _service.ConfirmFlight(id))
+            {
+                return Ok(id);
+            }
+            return BadRequest();
+        }
+        [HttpPut]
+        [Route("update")]
+        public async Task<IActionResult> UpdateAccount([FromBody] dynamic requestBody)
+        {
+            if (await _service.UpdateFlight(requestBody))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }

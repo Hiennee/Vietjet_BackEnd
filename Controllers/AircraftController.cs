@@ -35,5 +35,15 @@ namespace Vietjet_BackEnd.Controllers
             }
             return NotFound(result);
         }
+        [HttpPut]
+        [Route("update")]
+        public async Task<IActionResult> UpdateAccount([FromBody] dynamic requestBody)
+        {
+            if (await _service.UpdateAircraft(requestBody))
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
     }
 }

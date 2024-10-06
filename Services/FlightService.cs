@@ -58,5 +58,64 @@ namespace Vietjet_BackEnd.Services
                 Name = a.Name,
             }).FirstOrDefaultAsync();
         }
+        public async Task<bool> PostFlight(FlightDTO flight)
+        {
+            try
+            {
+                _context.Flights.Add(new Flight
+                {
+                    AircraftId = flight.AircraftId,
+                    Route = flight.Route,
+                    DepartmentDate = flight.DepartmentDate,
+                    LoadingPoint = flight.LoadingPoint,
+                    UnloadingPoint = flight.UnloadingPoint,
+                    Confirmed = flight.Confirmed,
+                });
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<bool> ConfirmFlight(string id)
+        {
+            try
+            {
+                var flight = await _context.Flights.FindAsync(id);
+                if (flight == null)
+                {
+                    return false;
+                }
+                flight.Confirmed = true;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<bool> UpdateFlight(FlightDTO flight)
+        {
+            try
+            {
+                var result = await _context.Flights.FirstOrDefaultAsync(d => d.Id == flight.Id);
+                if (result == null)
+                {
+                    throw new Exception("Flight not found");
+                }
+                result.Route = flight.Route;
+                result.DepartmentDate = flight.DepartmentDate;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
     }
 }

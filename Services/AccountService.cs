@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using Vietjet_BackEnd.DTO;
 using Vietjet_BackEnd.Models;
 
@@ -22,6 +24,7 @@ namespace Vietjet_BackEnd.Services
                 Role = a.Role,
                 Terminated_until = a.Terminated_until,
             }).ToListAsync();
+            
         }
         public async Task<AccountDTO> GetAccount(string id)
         {
@@ -49,6 +52,64 @@ namespace Vietjet_BackEnd.Services
                 return result;
             }
             return null;
+        }
+        public async Task<bool> Register(string username, string password, string email, string phone, string role)
+        {
+            try
+            {
+                _context.Accounts.Add(new Account
+                {
+                    Name = username,
+                    Password = password,
+                    Email = email,
+                    Phone = phone,
+                    Role = role,
+                });
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+        }
+        public async Task<bool> UpdateAccount(AccountDTO account)
+        {
+            try
+            {
+                var result = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == account.Id);
+                if (result == null) 
+                    throw new Exception("Account not found");
+                result.Name = account.Name;
+                result.Phone = account.Phone;
+                result.Email = account.Email;
+                result.Role = account.Role;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+        public async Task<bool> Suspend(string id, DateTime due)
+        {
+            try
+            {
+                var result = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == id);
+                if (result == null)
+                    throw new Exception("Account not found");
+                result.Terminated_until = due;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
         }
     }
 }

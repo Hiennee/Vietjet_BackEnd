@@ -25,12 +25,13 @@ namespace Vietjet_BackEnd.Controllers
         {
             return await _service.GetAccount(id);
         }
-        [HttpGet("/suspendable/{id}")]
+        [HttpGet("suspendable/{id}")]
         public async Task<bool> IsAccountSuspended([FromRoute(Name = "id")] string id)
         {
             return await _service.IsAccountSuspended(id);
         }
         [HttpPost]
+        [Route("login")]
         public async Task<IActionResult> Login([FromBody] dynamic requestBody)
         {
             string email = requestBody.Email;
@@ -45,6 +46,43 @@ namespace Vietjet_BackEnd.Controllers
                 return BadRequest("Invalid email or password");
             }
             return Ok(account);
+        }
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] dynamic requestBody)
+        {
+            string name = requestBody.Name;
+            string password = requestBody.Password;
+            string email = requestBody.Email;
+            string phone = requestBody.Phone;
+            string role = requestBody.Role;
+            if (await _service.Register(name, password, email, phone, role))
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+        [HttpPut]
+        [Route("update")]
+        public async Task<IActionResult> UpdateAccount([FromBody] dynamic requestBody)
+        {
+            if (await _service.UpdateAccount(requestBody))
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+        [HttpPut]
+        [Route("suspend/{id}")]
+        public async Task<IActionResult> SuspendAccount([FromBody] dynamic requestBody)
+        {
+            string accountId = requestBody.id;
+            DateTime due = requestBody.due;
+            if (await _service.Suspend(accountId, due))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }

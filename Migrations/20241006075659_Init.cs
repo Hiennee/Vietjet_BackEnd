@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Vietjet_BackEnd.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,32 +36,6 @@ namespace Vietjet_BackEnd.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Aircrafts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Classes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Classes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Students",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Students", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -100,55 +74,6 @@ namespace Vietjet_BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClassStudent",
-                columns: table => new
-                {
-                    ClassesId = table.Column<int>(type: "int", nullable: false),
-                    StudentsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ClassStudent", x => new { x.ClassesId, x.StudentsId });
-                    table.ForeignKey(
-                        name: "FK_ClassStudent_Classes_ClassesId",
-                        column: x => x.ClassesId,
-                        principalTable: "Classes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClassStudent_Students_StudentsId",
-                        column: x => x.StudentsId,
-                        principalTable: "Students",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Student_Classes",
-                columns: table => new
-                {
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    ClassId = table.Column<int>(type: "int", nullable: false),
-                    Grade = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Student_Classes", x => new { x.StudentId, x.ClassId });
-                    table.ForeignKey(
-                        name: "FK_Student_Classes_Classes_ClassId",
-                        column: x => x.ClassId,
-                        principalTable: "Classes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Student_Classes_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Compartments",
                 columns: table => new
                 {
@@ -181,6 +106,7 @@ namespace Vietjet_BackEnd.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FlightId = table.Column<string>(type: "nvarchar(300)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Pilot_roles = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -234,11 +160,6 @@ namespace Vietjet_BackEnd.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClassStudent_StudentsId",
-                table: "ClassStudent",
-                column: "StudentsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Compartments_FlightId",
                 table: "Compartments",
                 column: "FlightId");
@@ -267,18 +188,10 @@ namespace Vietjet_BackEnd.Migrations
                 name: "IX_Flights_AircraftId",
                 table: "Flights",
                 column: "AircraftId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Student_Classes_ClassId",
-                table: "Student_Classes",
-                column: "ClassId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ClassStudent");
-
             migrationBuilder.DropTable(
                 name: "Compartments");
 
@@ -286,19 +199,10 @@ namespace Vietjet_BackEnd.Migrations
                 name: "DocumentVersions");
 
             migrationBuilder.DropTable(
-                name: "Student_Classes");
-
-            migrationBuilder.DropTable(
                 name: "SystemConfigs");
 
             migrationBuilder.DropTable(
                 name: "Documents");
-
-            migrationBuilder.DropTable(
-                name: "Classes");
-
-            migrationBuilder.DropTable(
-                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Accounts");

@@ -22,21 +22,6 @@ namespace Vietjet_BackEnd.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ClassStudent", b =>
-                {
-                    b.Property<int>("ClassesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ClassesId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("ClassStudent");
-                });
-
             modelBuilder.Entity("Vietjet_BackEnd.Models.Account", b =>
                 {
                     b.Property<string>("Id")
@@ -83,23 +68,6 @@ namespace Vietjet_BackEnd.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Aircrafts");
-                });
-
-            modelBuilder.Entity("Vietjet_BackEnd.Models.Class", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Classes");
                 });
 
             modelBuilder.Entity("Vietjet_BackEnd.Models.Compartment", b =>
@@ -152,6 +120,10 @@ namespace Vietjet_BackEnd.Migrations
                     b.Property<string>("FlightId")
                         .IsRequired()
                         .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Note")
                         .IsRequired()
@@ -246,41 +218,6 @@ namespace Vietjet_BackEnd.Migrations
                     b.ToTable("Flights");
                 });
 
-            modelBuilder.Entity("Vietjet_BackEnd.Models.Student", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Students");
-                });
-
-            modelBuilder.Entity("Vietjet_BackEnd.Models.StudentClasses", b =>
-                {
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Grade")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("StudentId", "ClassId");
-
-                    b.HasIndex("ClassId");
-
-                    b.ToTable("Student_Classes");
-                });
-
             modelBuilder.Entity("Vietjet_BackEnd.Models.SystemConfig", b =>
                 {
                     b.Property<bool>("Captcha")
@@ -295,21 +232,6 @@ namespace Vietjet_BackEnd.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("SystemConfigs");
-                });
-
-            modelBuilder.Entity("ClassStudent", b =>
-                {
-                    b.HasOne("Vietjet_BackEnd.Models.Class", null)
-                        .WithMany()
-                        .HasForeignKey("ClassesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vietjet_BackEnd.Models.Student", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Vietjet_BackEnd.Models.Compartment", b =>
@@ -380,35 +302,11 @@ namespace Vietjet_BackEnd.Migrations
                     b.Navigation("Aircraft");
                 });
 
-            modelBuilder.Entity("Vietjet_BackEnd.Models.StudentClasses", b =>
-                {
-                    b.HasOne("Vietjet_BackEnd.Models.Class", "Class")
-                        .WithMany("StudentClasses")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vietjet_BackEnd.Models.Student", "Student")
-                        .WithMany("StudentClasses")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Class");
-
-                    b.Navigation("Student");
-                });
-
             modelBuilder.Entity("Vietjet_BackEnd.Models.Aircraft", b =>
                 {
                     b.Navigation("Compartments");
 
                     b.Navigation("Flights");
-                });
-
-            modelBuilder.Entity("Vietjet_BackEnd.Models.Class", b =>
-                {
-                    b.Navigation("StudentClasses");
                 });
 
             modelBuilder.Entity("Vietjet_BackEnd.Models.Document", b =>
@@ -421,11 +319,6 @@ namespace Vietjet_BackEnd.Migrations
                     b.Navigation("Compartments");
 
                     b.Navigation("Documents");
-                });
-
-            modelBuilder.Entity("Vietjet_BackEnd.Models.Student", b =>
-                {
-                    b.Navigation("StudentClasses");
                 });
 #pragma warning restore 612, 618
         }

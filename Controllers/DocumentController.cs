@@ -55,5 +55,24 @@ namespace Vietjet_BackEnd.Controllers
             }
             return NotFound(result);
         }
+        [HttpPost("post")]
+        public async Task<IActionResult> PostDocument([FromBody] DocumentDTO document)
+        {
+            if (await _service.PostDocument(document.Name, document.Type, document.Note, document.Creator, document.Pilot_roles, document.Crew_roles) == true)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+        [HttpPut]
+        [Route("update")]
+        public async Task<IActionResult> UpdateAccount([FromBody] dynamic requestBody)
+        {
+            if (await _service.UpdateDocument(requestBody))
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
     }
 }
