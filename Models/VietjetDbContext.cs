@@ -5,13 +5,13 @@ namespace Vietjet_BackEnd.Models
     public class VietjetDbContext : DbContext
     {
         public VietjetDbContext(DbContextOptions<VietjetDbContext> options) : base(options) { }
-        DbSet<Account> Accounts { get; set; }
-        DbSet<Aircraft> Aircrafts { get; set; }
-        DbSet<Compartment> Compartments { get; set; }
-        DbSet<Document> Documents { get; set; }
-        DbSet<Document_Version> DocumentVersions { get; set; }
-        DbSet<Flight> Flights { get; set; }
-        DbSet<SystemConfig> SystemConfigs { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Aircraft> Aircrafts { get; set; }
+        public DbSet<Compartment> Compartments { get; set; }
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<Document_Version> DocumentVersions { get; set; }
+        public DbSet<Flight> Flights { get; set; }
+        public DbSet<SystemConfig> SystemConfigs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SystemConfig>()

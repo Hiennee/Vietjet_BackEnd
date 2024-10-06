@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Vietjet_BackEnd.Models;
+using Vietjet_BackEnd.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,10 @@ builder.Services.AddDbContext<VietjetDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddScoped<DocumentService>();
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<FlightService>();
+builder.Services.AddScoped<AircraftService>();
 
 var app = builder.Build();
 
