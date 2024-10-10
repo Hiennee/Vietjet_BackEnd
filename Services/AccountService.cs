@@ -100,7 +100,7 @@ namespace Vietjet_BackEnd.Services
             {
                 if (due < DateTime.Now)
                 {
-                    throw new Exception("Thời gian không hợp lệ");
+                    throw new Exception("Invalid date time");
                 }
                 var result = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == id);
                 if (result == null)
