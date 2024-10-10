@@ -98,6 +98,10 @@ namespace Vietjet_BackEnd.Services
         {
             try
             {
+                if (due < DateTime.Now)
+                {
+                    throw new Exception("Thời gian không hợp lệ");
+                }
                 var result = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == id);
                 if (result == null)
                     throw new Exception("Account not found");
