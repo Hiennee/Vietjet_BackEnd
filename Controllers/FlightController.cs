@@ -90,7 +90,7 @@ namespace Vietjet_BackEnd.Controllers
         }
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> UpdateAccount([FromBody] dynamic requestBody)
+        public async Task<IActionResult> UpdateFlight([FromBody] dynamic requestBody)
         {
             if (await _service.UpdateFlight(requestBody))
             {

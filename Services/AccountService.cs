@@ -46,7 +46,9 @@ namespace Vietjet_BackEnd.Services
         public async Task<Account> Login(string username, string password)
         {
             username = username.ToLower();
-            var result = await _context.Accounts.Where(a => a.Email == username).Where(a => a.Password == password).FirstOrDefaultAsync();
+            var result = await _context.Accounts.Where(a => a.Email == username)
+                                                .Where(a => a.Password == password)
+                                                .FirstOrDefaultAsync();
             if (result != null)
             {
                 return result;
